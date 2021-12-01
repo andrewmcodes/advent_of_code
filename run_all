@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+class DemoRunner
+  def initialize
+    @demos = collect_demos.map { Demo.new(_1) }
+  end
+
+  def run
+    puts delimeter
+    @demos.each(&:run)
+    puts delimeter
+  end
+
+  private
+
+  def delimeter
+    "\n#{'🎄' * 16}\n"
+  end
+
+  def collect_demos
+    Dir.glob('./solutions/**/*.rb').select { |e| File.file? e }
+  end
+end
+
+class Demo
+  def initialize(file)
+    @file = file
+  end
+
+  def run
+    puts "\n✅ #{@file}"
+    system "ruby #{@file}"
+  end
+end
+
+DemoRunner.new.run
